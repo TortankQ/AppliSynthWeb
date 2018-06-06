@@ -20,7 +20,9 @@
      
         <div>
             <span id="zoneCollab">
-                <input type="text" id="collaborateur1" name="collaborateur1" placeholder="Collaborateur" />
+                <input type="text" id="collaborateurNom1" name="collaborateurNom1" placeholder="Nom Collaborateur" />
+                <input type="text" id="collaborateurPrenom1" name="collaborateurPrenom1" placeholder="Prénom Collaborateur" />
+                
             </span>
             <input type="button" id="btnPlusCollab" onclick="addCollab()" name="btnPlusCollab" value="+"/>
         </div>

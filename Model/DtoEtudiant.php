@@ -16,8 +16,7 @@ class DtoEtudiant{
     private $DateNaiss;
     
     #constructeur
-    public function __construct($IdEtudiant, $Nom, $Prenom, $Adresse, $NumSecu, $DateNaiss){
-        $this->IdEtudiant = $IdEtudiant;
+    public function __construct($Nom, $Prenom, $Adresse, $NumSecu, $DateNaiss){
         $this->Nom = $Nom;
         $this->Prenom = $Prenom;
         $this->Adresse = $Adresse;

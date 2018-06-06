@@ -5,8 +5,12 @@
     require_once('../model/DtoConvention.php');
     require_once('../model/DaoClient.php');
     require_once('../model/DtoClient.php');
+    require_once('../model/DaoEtudiant.php');
+    require_once('../model/DtoEtudiant.php');
+    
     session_start();
-    var_dump($_SESSION);
+    //session_unset();
+   
 
     $page = "formulaire_convention";
     $erreur = "";
@@ -25,20 +29,42 @@
                     $dtoClient = new DtoClient($_POST['nomClient'],$_POST['numeroRue'],$_POST['rue'],$_POST['codePostal'],$_POST['clientMail'],$_POST['clientTel'],$_POST['numSiret']);
                     
                     $daoClient = new DaoClient("localhost","junior","root","");
-                    $_SESSION['dtoClient'] = $dtoClient;
+                    
                     $daoClient->insertClient($dtoClient);
                 }                
             }
         }
     }
 
-    
+
     #gere les collaborateur de la convention
-    if(isset($_POST['collaborateur1']) && $_POST['collaborateur1']!=""){
-        //cherche l'etudiant dans la bdd et crée la dto associé arraylist
-        $cpt=2;
-        while(!empty($_POST['collaborateur'.$cpt] && $_POST['collaborateur'.$cpt]!="")){
-            //cherche l'etudiant dans la bdd et crée la dto associé
+    if(isset($_POST['collaborateurNom1']) && $_POST['collaborateurNom1']!=""){
+        if(isset($_POST['collaborateurPrenom1']) && $_POST['collaborateurPrenom1']!=""){
+            
+            $arrayCollab = array();
+            //cherche l'etudiant dans la bdd et crée la dto associé arraylist
+
+            $daoEtudiant = new DaoEtudiant("localhost","junior","root","");
+
+            $dtoEtudiant = $daoEtudiant->getByNomEtudiant($_POST['collaborateurNom1'],$_POST['collaborateurPrenom1']);
+            
+            if($dtoEtudiant!=null){
+                array_push($arrayCollab,$dtoEtudiant);
+            }
+            $cptCollab=2;
+            
+            while(isset($_POST['collaborateurNom'.$cpt.'']) && $_POST['collaborateurNom'.$cpt.'']!=""){
+                //cherche l'etudiant dans la bdd et crée la dto associé
+                if(isset($_POST['collaborateurPrenom'.$cpt.'']) && $_POST['collaborateurPrenom'.$cpt.'']!=""){
+                    
+                    $dtoEtudiant = $daoEtudiant->getByNomEtudiant($_POST['collaborateurNom'.$cpt.''],$_POST['collaborateurPrenom'.$cpt.'']);
+                    
+                    //if($dtoEtudiant!=null){
+                        array_push($arrayCollab,$dtoEtudiant);
+                    //}
+                }
+                $cptCollab++;
+            }
         }
     }
 
@@ -47,6 +73,12 @@
         if(isset($_POST['quantite1']) && $_POST['quantite1']!=""){
             if(isset($_POST['prixHT1']) && $_POST['prixHT1']!=""){
                 //crée une DTO tache
+                $arrayTache = array();
+                
+
+                $daoTache = new DaoTache("localhost","junior","root","");
+
+                $daoTache->insertTache($dtoTache);
                 $cpt=2;
                 while(!empty($_POST['intituleTache'.$cpt] && $_POST['intituleTache'.$cpt]!="")){
                     if(!empty($_POST['quantite'.$cpt] && $_POST['quantite'.$cpt]!="")){
@@ -58,7 +90,7 @@
             }
         }
     }
-
+ var_dump($_SESSION);
   
     if(isset($_POST['accompte']) && $_POST['accompte']!=""){
         //avec accompte

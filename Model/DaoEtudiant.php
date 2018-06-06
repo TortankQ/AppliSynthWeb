@@ -86,11 +86,11 @@ class DaoEtudiant{
         
         $data = $req->fetch();
             
-        $DtoEtudiant = new DtoEtudiant ($data['IdEtudiant'],$data['Adresse'],$data['NumSecu'],$date['DateNaiss']);
+        $DtoEtudiant = new DtoEtudiant ($data['Nom'],$data['Prenom'],$data['Adresse'],$data['NumSecu'],$data['DateNaiss']);
 
         $req->closeCursor();
         
-        $DtoEtudiant->setIdEtudiant($data['Nom'], $data['Prenom']);
+        $DtoEtudiant->setIdEtudiant($data['IdEtudiant']);
         
         return $DtoEtudiant;
     }  
