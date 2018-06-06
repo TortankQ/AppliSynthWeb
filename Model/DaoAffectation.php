@@ -35,7 +35,7 @@ class DaoAffectation
         $req = $this->bdd->prepare($requete);
         $req->execute( array(
             't_IdEtudiant' => $DtoAffectation->getIdEtudiant(),
-            't_NumConvention' => $DtaAffectation->getNumConvention()
+            't_NumConvention' => $DtoAffectation->getNumConvention()
             ));
         
         #requete qui récupère le NumAffectation depuis la BDD
@@ -43,8 +43,7 @@ class DaoAffectation
         
         $req2 = $this->bdd->prepare($requete2);
         
-        $req2->execute(array($DtoAffectation->getIdEtudiant(), $DtoAffectation->getNumConvention()
-                            ));
+        $req2->execute(array($DtoAffectation->getIdEtudiant(), $DtoAffectation->getNumConvention()));
          
         $data=$req2->fetch();              
         $DtoAffectation->setNumAffectation($data['NumAffectation']);

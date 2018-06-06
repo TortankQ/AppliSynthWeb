@@ -48,9 +48,7 @@ class DaoEtudiant{
         
         
         $requete2 = 'SELECT * FROM etudiant WHERE Nom=? and Prenom=? and Adresse=? and NumSecu=? and DateNaiss=?;';
-        
         $req2 = $this->bdd->prepare($requete2);
-        
         $req2->execute(array($DtoEtudiant->getNom(), $DtoEtudiant->getPrenom(), $DtoEtudiant->getAdress(), $DtoEtudiant->getDateFin()));
          
         $data=$req2->fetch();

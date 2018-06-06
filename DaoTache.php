@@ -36,11 +36,17 @@ class DaoTache{
         $requete = 'INSERT INTO tache (NumTache, Intitule, Quantite, PrixHT) values(:t_NumTache, :t_Intitule, :t_Quantite, :t_PrixHT);';
         
         $req = $this->bdd->prepare($requete);
-        $req->execute( array(
+        $donnee = $req->execute( array(
             't_NumTache' => $DtoTache->getNumTache(),
             't_Intitule' => $DtoTache->getIntitule(),
             't_Quantite' => $DtoTache->getQuantite(),
             't_PrixHT' => $DtoTache->getPrixHT(),
             ));
-    }
+        
+        $DtoTache->setIdClient($donnee['NumTache']);
+        
+        $req->closeCursor();
+        
+        return true;
+    } 
 }

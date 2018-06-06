@@ -15,7 +15,7 @@ class Facture{
     private $Password;
     
     #constructeur
-    public function __construct($base, $hote, $UserName, $Password){
+    public function __construct($hote, $base, $UserName, $Password){
         try{
             $this->hote=$hote;
             $this->UserName=$UserName;

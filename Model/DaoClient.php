@@ -15,12 +15,12 @@ class DaoClient{
     private $Password;
     
     #constructeur
-    public function __construct($base, $hote, $UserName, $Password){
+    public function __construct($hote, $base, $UserName, $Password){
         try{
             $this->hote=$hote;
             $this->UserName=$UserName;
             $this->Password=$Password;
-            $this->bdd = new PDO('mysql:host='.$hote.';dbname='.base.';charset=utf8', $UserName, $Password);
+            $this->bdd = new PDO('mysql:host='.$hote.';dbname='.$base.';charset=utf8', $UserName, $Password);
         }catch (Exception $e){
             die('Erreur :' . $e->getMessage());
         }
@@ -43,12 +43,17 @@ class DaoClient{
             't_Siret' => $DtoClient->getSiret(),
         ));
         
+        $requete2 = 'SELECT * FROM client WHERE NomClient=? and NumRue=? and NomRue=? and CP=? and Mail=? and Tel=? and Siret=?;';
         
-        $DtoClient->setIdClient($donnes['IdClient']);
+        $req2 = $this->bdd->prepare($requete2);
         
-        close($donnes);
+        $req2->execute(array($DtoClient->getNomClient(), $DtoClient->getNumRue(), $DtoClient->getNomRue(), $DtoClient->getCP(), $DtoClient->getMail(), $DtoClient->getTel(), $DtoClient->getSiret()));
+         
+        $data=$req2->fetch();
+                       
+        $DtoClient->setIdClient($data['IdCli']);
         
-        return true;
+        $req2->closecursor();
     } 
     
     //Affiche client par son Id
