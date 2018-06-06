@@ -21,6 +21,8 @@ class DaoClient{
             $this->UserName=$UserName;
             $this->Password=$Password;
             $this->bdd = new PDO('mysql:host='.$hote.';dbname='.$base.';charset=utf8', $UserName, $Password);
+            $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         }catch (Exception $e){
             die('Erreur :' . $e->getMessage());
         }
@@ -33,9 +35,9 @@ class DaoClient{
         
         
         $req = $this->bdd->prepare($requete);
-        $req->execute( array(
+        $donnes = $req->execute( array(
             't_NomClient' => $DtoClient->getNomClient(),
-            't_NumRue' => $DtoClient->getNumRue(),
+            't_NumRue' => intval($DtoClient->getNumRue()),
             't_NomRue' => $DtoClient->getNomRue(),
             't_CP' => $DtoClient->getCP(),
             't_Mail' => $DtoClient->getMail(),
@@ -43,6 +45,7 @@ class DaoClient{
             't_Siret' => $DtoClient->getSiret(),
         ));
         
+
         $requete2 = 'SELECT * FROM client WHERE NomClient=? and NumRue=? and NomRue=? and CP=? and Mail=? and Tel=? and Siret=?;';
         
         $req2 = $this->bdd->prepare($requete2);
@@ -51,7 +54,8 @@ class DaoClient{
          
         $data=$req2->fetch();
                        
-        $DtoClient->setIdClient($data['IdCli']);
+        $DtoClient->setIdClient($data['IdClient']);
+
         
         $req2->closecursor();
     } 

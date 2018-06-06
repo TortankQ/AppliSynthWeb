@@ -1,7 +1,13 @@
-<div id="layout_under_header">&nbsp;
+
+   <div id="layout_under_header">&nbsp;
     <form id="convention" method="POST"  action="../Controller/CreationconventionController.php" >
+       <input type="text" id="nomProjet" name="nomProjet" placeholder="Nom Projet" />
+       <br/><br/>
+       <br/>
         <div>
             <input type="text" id="clientname" name="nomClient" placeholder="Nom client" />
+            <input type="text" id="clientMail" name="clientMail" placeholder="Mail" />
+            <input type="text" id="clientTel" name="clientTel" placeholder="Tél" />
             <input type="number" id="siretnumber" name="numSiret" placeholder="N° Siret" />
         </div>
         <br/><br/>
@@ -11,60 +17,68 @@
             <input type="number" id="codepostal" name="codePostal" placeholder="Code postal" max="99999" />
         </div>
         <br/><br/>
-        <!--PHP A RAJOUTER ICI POUR L'AJOUT D'UN INPUT SI ON CLIQUE SUR LE '+'-->
+     
         <div>
-            <input type="text" id="collaborateur1" name="collaborateur1" placeholder="Collaborateur" />
-            <button id="btnPlus" onclick="addCollab()" name="btnPlus">+</button>
-        </div>
-        <!--PHP A RAJOUTER ICI POUR L'AJOUT D'UN INPUT SI ON CLIQUE SUR LE '+'-->
-        <br/><br/>
-        <!--PHP A RAJOUTER ICI POUR L'AJOUT D'UN INPUT SI ON CLIQUE SUR LE '+'-->
-        <div>
-            <input type="text" id="intituletache" name="intituleTache" placeholder="Intitule tâche" />
-            <input type="number" id="quantite" name="quantite" placeholder="Qté" />
-            <input type="number" id="prixht" name="prixHT" placeholder="Prix HT" />
+            <span id="zoneCollab">
+                <input type="text" id="collaborateurNom1" name="collaborateurNom1" placeholder="Nom Collaborateur" />
+                <input type="text" id="collaborateurPrenom1" name="collaborateurPrenom1" placeholder="Prénom Collaborateur" />
+                
+            </span>
+            <input type="button" id="btnPlusCollab" onclick="addCollab()" name="btnPlusCollab" value="+"/>
         </div>
         <br/><br/>
-        <!--PHP A RAJOUTER ICI POUR L'AJOUT D'UN INPUT SI ON CLIQUE SUR LE '+'-->
+
+        <div id="zoneTache">
+            <input type="text" id="intituletache1" name="intituleTache1" placeholder="Intitule tâche" />
+            <input type="number" id="quantite1" name="quantite1" onchange = "calculTotalHT()" placeholder="Qté" />
+            <input type="number" id="prixht1" name="prixHT1" onchange = "calculTotalHT()" placeholder="Prix HT" />
+            <input type="button" id="btnPlusTache" onclick="addTache()" name="btnPlusTache" value="+"/>
+        </div>
+            
+        <br/><br/>
+
 
         <div>
-          <input type="number" id="totalht" name="totalHT" placeholder="Total HT" />
-          <input type="number" id="tva" name="TVA" placeholder="TVA" />
-          <input type="number" id="totalttc" name="totalTTC" placeholder="Total TTC" />
+          <input type="number" id="totalht" name="totalHT" placeholder="Total HT" readonly/>
+          <input type="number" id="tva" name="TVA" onchange="calculTotalTTC()" placeholder="TVA" />
+          <input type="number" id="totalttc" name="totalTTC" placeholder="Total TTC" readonly/>
         </div>
         <br/><br/>
 
         <div>
           <input type="number" id="accompte" name="accompte" placeholder="Accompte" />
-           Date début : <input type="date" id="datedebut" name="dateDebut" placeholder="Date début" />
-           Date fin : <input type="date" id="totalttc" name="DateFin" placeholder="Date fin" />
+           Date début : <input type="date" id="datedebut" name="dateDebut" min="<?php echo date('Y-m-d');?>" placeholder="Date début" />
+           Date fin : <input type="date" id="dateFin" name="dateFin" min="<?php echo date('Y-m-d');?>" placeholder="Date fin" />
         </div>
         <br/><br/>
         <div>
-          <input type="text" id="commentaire" name="commentaire" placeholder="Commentaire" height="200" />
+          <input type="textarea" id="commentaire" name="commentaire" placeholder="Commentaire" height="200" />
 
         </div>
         <br/><br/>
 
         <div class="button_action">
             <div>
-                <button type="submit" id="valider">Valider</button>
+                <button type="submit" id="valider" name="valider">Valider</button>
             </div>
-            
-            <div>
-                <form id="retour" method="POST" action="../Controller/MenugestionutilisateurController.php">
-                    <button type="submit" name="btnRetour">Retour</button>
-                </form>
-            </div>
-            <div>
-                <form id="deconnexion" method="POST" action="../Controller/FrontController.php">
-                    <button type="submit" name="btnDeconnexion">Déconnexion</button>
-                </form>
-            </div>
-            
         </div>
 
-    </form> 
-    <script src="../Controller/script_ajoutCollab.js"></script> 
+    </form>
+    
+    <div>
+        <form id="retour" method="POST" action="../Controller/MenugestionconventionController.php">
+            <button type="submit" name="btnRetour">Retour</button>
+        </form>
+    </div>
+    <div>
+        <form id="deconnexion" method="POST" action="../Controller/FrontController.php">
+            <button type="submit" name="btnDeconnexion">Déconnexion</button>
+        </form>
+    </div>
+    
+    <script src="../Controller/script_ajoutCollab.js"></script>
+    <script src="../Controller/script_ajoutTache.js"></script> 
+    <script src="../Controller/script_calculPrixHT.js"></script> 
+    <script src="../Controller/script_calculPrixTTC.js"></script>
 
 </div><!--fin du layout_under_header-->

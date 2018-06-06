@@ -2,7 +2,7 @@
     logo
 </div>
 <div>
-    <form id="creationConvention" method="POST" action="../Controller/MenugestionconventionController.php">
+    <form id="creationConvention" method="POST" action="../Controller/CreationconventionController.php">
         <button type="submit" name="btnCreationConvention">création convention</button>
     </form>
 </div>

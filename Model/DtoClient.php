@@ -18,8 +18,7 @@ class DtoClient{
     private $Siret;
     
     #constructeur
-    public function __construct($IdClient, $NomClient, $NumRue, $NomRue, $CP, $Mail, $Tel, $Siret){
-        $this->IdClient = $IdClient;
+    public function __construct($NomClient, $NumRue, $NomRue, $CP, $Mail, $Tel, $Siret){
         $this->NomClient = $NomClient;
         $this->NumRue = $NumRue;
         $this->NomRue = $NomRue;
