@@ -36,7 +36,7 @@ class DtoConvention{
         $this->Commentaire = $Commentaire;
     }
     */
-    public function construct($NomProjet, $IdClient, $DateDebut,
+    public function __construct($NomProjet, $IdClient, $DateDebut,
                                 $DateFin, $MontantHT, $MontantTTC, 
                                 $Acompte, $TVA, $Signature, $Commentaire){
         $this->NomProjet = $NomProjet;

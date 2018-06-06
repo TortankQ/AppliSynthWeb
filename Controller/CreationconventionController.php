@@ -7,6 +7,8 @@
     require_once('../model/DtoClient.php');
     require_once('../model/DaoEtudiant.php');
     require_once('../model/DtoEtudiant.php');
+    require_once('../model/DaoTache.php');
+    require_once('../model/DtoTache.php');
     
     session_start();
     //session_unset();
@@ -62,7 +64,6 @@
                     
                     if($dtoEtudiant!=null){
                         array_push($arrayCollab,$dtoEtudiant);
-                        $_SESSION['test']=$arrayCollab;
                     }
                 }
                 $cptCollab++;
@@ -70,30 +71,7 @@
         }
     }
 
-    #gere les taches de la convention
-//    if(isset($_POST['intituleTache1']) && $_POST['intituleTache1']!=""){
-//        if(isset($_POST['quantite1']) && $_POST['quantite1']!=""){
-//            if(isset($_POST['prixHT1']) && $_POST['prixHT1']!=""){
-//                //crée une DTO tache
-//                $arrayTache = array();
-//                
-//
-//                $daoTache = new DaoTache("localhost","junior","root","");
-//
-//                $daoTache->insertTache($dtoTache);
-//                $cpt=2;
-//                while(!empty($_POST['intituleTache'.$cpt] && $_POST['intituleTache'.$cpt]!="")){
-//                    if(!empty($_POST['quantite'.$cpt] && $_POST['quantite'.$cpt]!="")){
-//                        if(!empty($_POST['prixHT'.$cpt] && $_POST['prixHT'.$cpt]!="")){
-//                            //crée des DTO tache
-//                        }
-//                    }
-//                }              
-//            }
-//        }
-//    }
-
-  
+ 
     
         
     if(isset($_POST['dateDebut'])){
@@ -108,62 +86,103 @@
                 
                 if(checkdate($arrayDateFin['month'],$arrayDateFin['day'],$arrayDateFin['year'])){
                     
-                    if($dtoClient!=null){
+                    if(isset($dtoClient)){
                         
-                        if(sizeof($arrayCollab)>0){
+                        if(isset($arrayCollab) && sizeof($arrayCollab)>0){
                             
-                           // if(sizeof($arrayTache)>0){
                                 
-                                if(isset($_POST['accompte']) && $_POST['accompte']!=""){
+                             if(isset($_POST['accompte']) && $_POST['accompte']!=""){
                                     //avec accompte
-                                    $daoConvention = new DaoConvention("localhost","junior","root","");
+                                $daoConvention = new DaoConvention("localhost","junior","root","");
                                     
                                     
-                                    $dtoConvention = new DtoConvention(
-                                        $_POST['NomProjet'],
-                                        $dtoClient->getIdClient(),
-                                        $_POST['dateDebut'],
-                                        $_POST['dateFin'],
-                                        $_POST['totalHT'],
-                                        $_POST['TotalTTC'],
-                                        $_POST['accompte'],
-                                        $_POST['tva'],
-                                        false,
-                                        $_POST['commentaire']
-                                    );
+                                $dtoConvention = new DtoConvention(
+                                    $_POST['nomProjet'],
+                                    $dtoClient->getIdClient(),
+                                    $_POST['dateDebut'],
+                                    $_POST['dateFin'],
+                                    $_POST['totalHT'],
+                                    $_POST['totalTTC'],
+                                    $_POST['accompte'],
+                                    $_POST['TVA'],
+                                    0,
+                                    $_POST['commentaire']
+                                );
                                     
-                                    $daoConvention->insertTabConvention($dtoConvention);
+                                $daoConvention->insertTabConvention($dtoConvention);
+                                 
+                                gererTache($dtoConvention);
+                            }else{
+                                //sans accompte
+                                $daoConvention = new DaoConvention("localhost","junior","root","");
+                                
+                                    
+                                $dtoConvention = new DtoConvention(
+                                    $_POST['nomProjet'],
+                                    $dtoClient->getIdClient(),
+                                    $_POST['dateDebut'],
+                                    $_POST['dateFin'],
+                                    $_POST['totalHT'],
+                                    $_POST['totalTTC'],
+                                    0,
+                                    $_POST['TVA'],
+                                    0,
+                                    $_POST['commentaire']
+                                );
+                                    
+                                $daoConvention->insertTabConvention($dtoConvention);
                                     $_SESSION['dtoConvention']=$dtoConvention;
-                                    
-                                }else{
-                                    //sans accompte
-                                     $daoConvention = new DaoConvention("localhost","junior","root","");
-                                    
-                                    
-                                    $dtoConvention = new DtoConvention(
-                                        $_POST['NomProjet'],
-                                        $dtoClient->getIdClient(),
-                                        $_POST['dateDebut'],
-                                        $_POST['dateFin'],
-                                        $_POST['totalHT'],
-                                        $_POST['TotalTTC'],
-                                        0,
-                                        $_POST['tva'],
-                                        false,
-                                        $_POST['commentaire']
-                                    );
-                                    
-                                    $daoConvention->insertTabConvention($dtoConvention);
-                                    $_SESSION['dtoConvention']=$dtoConvention;
-                                }
-                           // }
+                                gererTache($dtoConvention);
+                            }
                         }
                     }
                 }
             }
         }          
     }
-    
+
+
+   function gererTache($dtoConvention){
+        #gere les taches de la convention
+        if(isset($_POST['intituletache1']) && $_POST['intituletache1']!=""){
+            if(isset($_POST['quantite1']) && $_POST['quantite1']!=""){
+                if(isset($_POST['prixht1']) && $_POST['prixht1']!=""){
+                    //crée une DTO tache
+                    $arrayTache = array();
+
+                    $daoTache = new DaoTache("localhost","junior","root","");
+
+                    $dtoTache = new DtoTache($dtoConvention->getNumConvention(),$_POST['intituletache1'],$_POST['quantite1'],$_POST['prixht1']);
+
+                    if($dtoTache!=null){
+                        $daoTache->insertTache($dtoTache);
+                        array_push($arrayTache,$dtoTache);
+                    }
+
+
+                    $cptTache=2;
+
+                    
+                    while(isset($_POST['intituletache'.$cptTache]) && $_POST['intituletache'.$cptTache]!=""){
+                        if(isset($_POST['quantite'.$cptTache]) && $_POST['quantite'.$cptTache]!=""){
+                            if(isset($_POST['prixHT'.$cptTache]) && $_POST['prixHT'.$cptTache]!=""){
+                                //crée des DTO tache
+
+                                $dtoTache = new DtoTache($dtoConvention->getNumConvention(),$_POST['intituletache'.$cptTache],$_POST['quantite'.$cptTache],$_POST['prixHT'.$cptTache]);
+
+                                if($dtoTache!=null){
+                                    $daoTache->insertTache($dtoTache);
+                                    array_push($arrayTache,$dtoTache);
+                                    $_SESSION['test2']=$arrayTache;
+                                }
+                            }
+                        }
+                        $cptTache++;
+                    }              
+                }
+            }
+        }
+    }
     
  var_dump($_SESSION);
     

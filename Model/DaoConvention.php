@@ -22,6 +22,7 @@ class DaoConvention
             $this->UserName=$UserName;
             $this->Password=$Password;
             $this->bdd = new PDO('mysql:host='.$hote.';dbname='.$base.';charset=utf8', $UserName, $Password);
+            $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }catch (Exception $e){
             die('Erreur :' . $e->getMessage());
         }
@@ -31,7 +32,7 @@ class DaoConvention
     public function insertTabConvention($DtoConvention){
         
         $requete = 'INSERT INTO convention(NomProjet, IdClient, DateDebut, DateFin, MontantHT,
-                             MontantTTC, Acompte, TVA; Signature, Commentaire) values(:t_NomProjet,:t_IdClient, :t_DateDebut,:t_DateFin, :t_MontantHT, :t_MontantTTC, :t_Acompte, :t_TVA, :t_Signature, :t_Commentaire);';
+                             MontantTTC, Acompte, TVA, Signature, Commentaire) values(:t_NomProjet,:t_IdClient, :t_DateDebut,:t_DateFin, :t_MontantHT, :t_MontantTTC, :t_Acompte, :t_TVA, :t_Signature, :t_Commentaire);';
         
         $req = $this->bdd->prepare($requete);
         $req->execute( array(
@@ -44,7 +45,8 @@ class DaoConvention
             't_Acompte' => $DtoConvention->getAcompte(),
             't_TVA' => $DtoConvention->getTVA(),
             't_Signature' => $DtoConvention->getSignature(),
-            't_Commentaire' => $DtoConvention->getCommentaire()));
+            't_Commentaire' => $DtoConvention->getCommentaire()
+        ));
         
         
         $requete2 = 'SELECT * FROM convention WHERE NomProjet=? and IdClient=? and DateDebut=? and DateFin=? and MontantHT=? and MontantTTC=? and Acompte=? and TVA=? and Signature=? and Commentaire=?;';

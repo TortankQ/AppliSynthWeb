@@ -29,9 +29,9 @@
         <br/><br/>
 
         <div id="zoneTache">
-            <input type="text" id="intituletache1" name="intituleTache1" placeholder="Intitule tâche" />
+            <input type="text" id="intituletache1" name="intituletache1" placeholder="Intitule tâche" />
             <input type="number" id="quantite1" name="quantite1" onchange = "calculTotalHT()" placeholder="Qté" />
-            <input type="number" id="prixht1" name="prixHT1" onchange = "calculTotalHT()" placeholder="Prix HT" />
+            <input type="number" id="prixht1" name="prixht1" onchange = "calculTotalHT()" placeholder="Prix HT" />
             <input type="button" id="btnPlusTache" onclick="addTache()" name="btnPlusTache" value="+"/>
         </div>
             
