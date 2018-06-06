@@ -22,6 +22,7 @@ class DaoClient{
             $this->Password=$Password;
             $this->bdd = new PDO('mysql:host='.$hote.';dbname='.$base.';charset=utf8', $UserName, $Password);
             $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         }catch (Exception $e){
             die('Erreur :' . $e->getMessage());
         }
@@ -44,14 +45,19 @@ class DaoClient{
             't_Siret' => $DtoClient->getSiret(),
         ));
         
-        $req->closeCursor();
-        
 
-        $DtoClient->setIdClient($donnes['IdClient']);
+        $requete2 = 'SELECT * FROM client WHERE NomClient=? and NumRue=? and NomRue=? and CP=? and Mail=? and Tel=? and Siret=?;';
         
+        $req2 = $this->bdd->prepare($requete2);
         
+        $req2->execute(array($DtoClient->getNomClient(), $DtoClient->getNumRue(), $DtoClient->getNomRue(), $DtoClient->getCP(), $DtoClient->getMail(), $DtoClient->getTel(), $DtoClient->getSiret()));
+         
+        $data=$req2->fetch();
+                       
+        $DtoClient->setIdClient($data['IdClient']);
+
         
-        return true;
+        $req2->closecursor();
     } 
     
     //Affiche client par son Id
