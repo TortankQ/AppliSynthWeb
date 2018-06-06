@@ -34,7 +34,7 @@ class DaoClient{
         
         
         $req = $this->bdd->prepare($requete);
-        $req->execute( array(
+        $donnes = $req->execute( array(
             't_NomClient' => $DtoClient->getNomClient(),
             't_NumRue' => intval($DtoClient->getNumRue()),
             't_NomRue' => $DtoClient->getNomRue(),
