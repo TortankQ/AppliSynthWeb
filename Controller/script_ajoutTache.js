@@ -13,7 +13,7 @@ function addTache(){
     inputQuantite.addEventListener("change",calculTotalHT);
     zoneTache.appendChild(inputQuantite);
     var inputPrixHT = document.createElement("input");
-    inputPrixHT.name = "prixht"+cpt;
+    inputPrixHT.name = "prixHT"+cpt;
     inputPrixHT.id = "prixht"+cpt;
     inputPrixHT.placeholder = "Prix HT";
     inputPrixHT.addEventListener("change",calculTotalHT);
