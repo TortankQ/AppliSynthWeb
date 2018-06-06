@@ -3,10 +3,10 @@
                     Julien Frillici
                     Bilge Ekinci
                     05-2018 / AppliSynth - Junior Entreprise
-    Classe DAO Convention*/
+    Classe DAO Facture*/
 
 
-class Facture{
+class DaoFacture{
     
     #attributs
     private $bdd;
@@ -25,6 +25,7 @@ class Facture{
             die('Erreur :' . $e->getMessage());
         }
     }
+    
     public function insertTabFacture($DtoFacture){
         //Requête d'insertion
         $requete1 = 'INSERT INTO facture(DateFacture, MontantHT, MontantTTC,
@@ -92,6 +93,39 @@ class Facture{
         
         $req->closeCursor();
         
-        return $DtaFacture;
+        return $DtoFacture;
     }  
+    
+    #recupère une convention à partir d'un nom:
+    public function afficherParNumFacture($numFacture){
+        
+        echo'<table>';
+            echo'<tr>';
+                echo'<th>Numéro de facture</th>';
+                echo'<th>Date de facture</th>';
+                echo'<th>Montant HT</th>';
+                echo'<th>Montant TTC</th>';
+                echo'<th>Facture payée</th>';
+            echo'</tr>';
+
+        
+        $requete = 'SELECT * FROM facture WHERE NumFacture="'.$numFacture.'";';
+        $reponse = $this->bdd->query($requete);
+
+
+       while($data = $reponse->fetch()){
+
+            echo'</tr>';
+                echo '<td>'.$data['NumFacture'].'</td>';
+                echo '<td>'.$data['DateFacture'].'</td>';
+                echo '<td>'.$data['MontantHT'].'</td>';
+                echo '<td>'.$data['MontantTTC'].'</td>';
+                echo '<td>'.$data['Payee'].'</td>';
+                echo '<td><button name="button">Accéder à ma facture</button></td>';
+                echo '<td><button name="button">Impr'
+            echo'</tr>';
+        }
+        $reponse->closeCursor();
+        echo'</table>';
+    }    
 }
