@@ -50,20 +50,18 @@
             
             if($dtoEtudiant!=null){
                 array_push($arrayCollab,$dtoEtudiant);
-                
             }
             $cptCollab=2;
             
-            while(isset($_POST['collaborateurNom'.$cptCollab.'']) && $_POST['collaborateurNom'.$cptCollab.'']!=""){
+            while(isset($_POST['collaborateurNom'.$cptCollab.'']) && $_POST['collaborateurNom'.$cpt.'']!=""){
                 //cherche l'etudiant dans la bdd et crée la dto associé
-                if(isset($_POST['collaborateurPrenom'.$cptCollab.'']) && $_POST['collaborateurPrenom'.$cptCollab.'']!=""){
+                if(isset($_POST['collaborateurPrenom'.$cptCollab.'']) && $_POST['collaborateurPrenom'.$cpt.'']!=""){
                     
-                    $dtoEtudiant = $daoEtudiant->getByNomEtudiant($_POST['collaborateurNom'.$cptCollab],$_POST['collaborateurPrenom'.$cptCollab]);
+                    $dtoEtudiant = $daoEtudiant->getByNomEtudiant($_POST['collaborateurNom'.$cptCollab.''],$_POST['collaborateurPrenom'.$cptCollab.'']);
                     
-                    if($dtoEtudiant!=null){
+                    //if($dtoEtudiant!=null){
                         array_push($arrayCollab,$dtoEtudiant);
-                        $_SESSION['test']=$arrayCollab;
-                    }
+                    //}
                 }
                 $cptCollab++;
             }
